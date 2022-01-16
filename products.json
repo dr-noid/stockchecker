@@ -1,0 +1,60 @@
+{   
+    "products": [
+        {
+            "url": "https://www.alternate.nl/Grafische-kaarten/RTX-3060",
+            "id": 0
+        },
+        {
+            "url": "https://www.alternate.nl/Grafische-kaarten/RTX-3060-ti",
+            "id": 1
+        },
+        {
+            "url": "https://www.alternate.nl/Grafische-kaarten/RTX-3070",
+            "id": 2
+        },
+        {
+            "url": "https://www.alternate.nl/Grafische-kaarten/RTX-3070-ti",
+            "id": 3
+        },
+        {
+            "url": "https://www.alternate.nl/Grafische-kaarten/RTX-3080",
+            "id": 4
+        },
+        {
+            "url": "https://www.alternate.nl/Grafische-kaarten/RTX-3070-ti",
+            "id": 5
+        },
+        {
+            "url": "https://www.alternate.nl/Grafische-kaarten/RTX-3090",
+            "id": 6
+        },
+        {
+            "url": "https://azerty.nl/category/componenten/videokaarten/nvidia_geforce/nvidia_geforce_rtx_3060#!sorting=15&limit=96&view=grid",
+            "id": 0
+        },
+        {
+            "url": "https://azerty.nl/category/componenten/videokaarten/nvidia_geforce/nvidia_geforce_rtx_3060_ti#!sorting=15&limit=96&view=grid",
+            "id": 1
+        },
+        {
+            "url": "https://azerty.nl/category/componenten/videokaarten/nvidia_geforce/nvidia_geforce_rtx_3070#!sorting=15&limit=96&view=grid",
+            "id": 2
+        },
+        {
+            "url": "https://azerty.nl/category/componenten/videokaarten/nvidia_geforce/nvidia_geforce_rtx_3070_ti#!sorting=15&limit=96&view=grid",
+            "id": 3
+        },
+        {
+            "url": "https://azerty.nl/category/componenten/videokaarten/nvidia_geforce/nvidia_geforce_rtx_3080#!sorting=15&limit=96&view=grid",
+            "id": 4
+        },
+        {
+            "url": "https://azerty.nl/category/componenten/videokaarten/nvidia_geforce/nvidia_geforce_rtx_3080_ti#!sorting=15&limit=96&view=grid",
+            "id": 5
+        },
+        {
+            "url": "https://azerty.nl/category/componenten/videokaarten/nvidia_geforce/nvidia_geforce_rtx_3090#!sorting=15&limit=96&view=grid",
+            "id": 6
+        }
+    ]}
+        
