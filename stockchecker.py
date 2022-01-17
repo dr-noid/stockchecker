@@ -1,7 +1,4 @@
-import jsons
-
 from models.product import Product
-from models.scrapedproduct import ScrapedProduct
 from models.website import Website
 from sites.alternate import Alternate
 from sites.azerty import Alternate
@@ -35,11 +32,6 @@ def distribute_products(websites: list[Website],
 def add_prices_to_products(products: list[Product], prices: dict) -> None:
     for product in products:
         product.price_threshold = prices[product.product_id]
-
-
-def save_to_json(product: ScrapedProduct) -> None:
-    with open("scraped.json", "a", encoding="utf-8") as file:
-        file.write(jsons.dumps(product))
 
 
 if __name__ == "__main__":

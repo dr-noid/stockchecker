@@ -22,11 +22,11 @@ class Alternate(Website):
 
         for item in html_items:
             scraped_products.append(
-                self.create_product(product.product_id, item))
+                self.create_product(product, item))
 
         return scraped_products
 
-    def create_product(self, product_id: int, item: Tag) -> ScrapedProduct:
+    def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
         a_element = item.find("a", attrs={"class": "item-img"}, recursive=True)
         price_element = item.find("span", attrs={"class": "price"})
         stock_element = item.find("span", attrs={"class": "stock_desc"})
@@ -36,24 +36,28 @@ class Alternate(Website):
             raise TypeError("Incorrect type")
 
         name = a_element["title"]
-        price = price_element.text
         url = a_element["href"]
-        stock = stock_element.text
 
         if not isinstance(name, str) or not isinstance(url, str):
             raise TypeError("Incorrect type")
 
-        scraped_product = ScrapedProduct(
-            product_id=product_id,
-            url="https://azerty.nl/" + url,
-            store_price=self.strip_price(price),
-            availability=self.availability(stock))
+        url = "https://azerty.nl/" + url
+        price = self.strip_price(price_element.text)
+        availability = self.check_availability(stock_element.text)
 
+        scraped_product = ScrapedProduct(
+            product_id=product.product_id,
+            url=url,
+            item_price=price,
+            availability=availability)
+
+        if not self.validate_data(product, scraped_product):
+            return None
         return scraped_product
 
     def strip_price(self, price: str) -> float:
         sanitized_price: str = price.replace(",", ".")
         return float(sanitized_price)
 
-    def availability(self, stock: str) -> bool:
+    def check_availability(self, stock: str) -> bool:
         return stock.__contains__("Volgende werkdag in huis")

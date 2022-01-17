@@ -18,15 +18,19 @@ def main():
 
     stockchecker.run(website_list)
 
-    all_scraped_products: list[ScrapedProduct] = []
+    scraped_products: list[ScrapedProduct] = []
     for website in website_list:
-        all_scraped_products.extend(website.scraped_products)
+        scraped_products.extend(website.scraped_products)
 
-    print(f"Scraped products: {len(all_scraped_products)}")
+    print(f"Scraped products: {len(scraped_products)}")
 
-    filter_availability(all_scraped_products)
+    filter_availability(scraped_products)
 
-    print(f"Filtered products len: {len(all_scraped_products)}")
+    print(f"Availability filtered products len: {len(scraped_products)}")
+
+    filter_price(scraped_products, prices)
+
+    print(f"Price filtered products len: {len(scraped_products)}")
 
 
 def filter_availability(products: list[ScrapedProduct]):
@@ -37,6 +41,13 @@ def filter_availability(products: list[ScrapedProduct]):
 
 def filter_price(products: list[ScrapedProduct], prices: dict[int, int]):
     for product in products:
+        for id, price in prices.items():
+            if product.product_id == id and price < product.item_price:
+                print(f"{id} and {product.product_id} match")
+                print(f"store price: {product.item_price}")
+                print(f"price threshold: {price}")
+                products.remove(product)
+
         # TODO: match scrapedproduct and prices with id's
 
 
