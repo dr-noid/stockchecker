@@ -24,32 +24,6 @@ def main():
 
     print(f"Scraped products: {len(scraped_products)}")
 
-    filter_availability(scraped_products)
-
-    print(f"Availability filtered products len: {len(scraped_products)}")
-
-    filter_price(scraped_products, prices)
-
-    print(f"Price filtered products len: {len(scraped_products)}")
-
-
-def filter_availability(products: list[ScrapedProduct]):
-    for product in products:
-        if not product.availability:
-            products.remove(product)
-
-
-def filter_price(products: list[ScrapedProduct], prices: dict[int, int]):
-    for product in products:
-        for id, price in prices.items():
-            if product.product_id == id and price < product.item_price:
-                print(f"{id} and {product.product_id} match")
-                print(f"store price: {product.item_price}")
-                print(f"price threshold: {price}")
-                products.remove(product)
-
-        # TODO: match scrapedproduct and prices with id's
-
 
 if __name__ == "__main__":
     main()

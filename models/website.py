@@ -64,7 +64,6 @@ class Website(ABC):
     def validate_data(self, product: Product, scraped_product: ScrapedProduct) -> bool:
         result: bool = True
         if self.price_filter:
-            result = int(product.price_threshold) < scraped_product.item_price
             result = self.price_check(product.price_threshold,
                                       scraped_product.item_price)
         if self.availability_filter:
