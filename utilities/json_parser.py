@@ -8,10 +8,12 @@ def parse_json_file(filename: str) -> dict:
         return json.load(file)
 
 
-def get_products(data: dict) -> list[Product]:
+def get_products(filename: str) -> list[Product]:
     """This method creates the Product instances"""
 
-    json_products: list | None = data.get("products")
+    data = parse_json_file(filename)
+
+    json_products: list = data['products']
 
     if json_products is None:
         raise ValueError("No products, check products.json")
@@ -25,10 +27,12 @@ def get_products(data: dict) -> list[Product]:
     return product_list
 
 
-def get_prices(data: dict) -> dict[int, int]:
+def get_prices(filename: str) -> dict[int, int]:
     """Returns a dict with product ids as keys and prices as values"""
 
-    json_prices: list | None = data.get("prices")
+    data = parse_json_file(filename)
+
+    json_prices: list = data["prices"]
 
     if json_prices is None:
         raise ValueError("No prices, check prices.json")

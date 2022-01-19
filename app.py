@@ -4,11 +4,8 @@ from utilities import json_parser
 
 
 def main():
-    product_data = json_parser.parse_json_file("products.json")
-    price_data = json_parser.parse_json_file("prices.json")
-
-    prices = json_parser.get_prices(price_data)
-    products = json_parser.get_products(product_data)
+    prices = json_parser.get_prices("prices.json")
+    products = json_parser.get_products("products.json")
 
     stockchecker.add_prices_to_products(products, prices)
 
@@ -16,6 +13,7 @@ def main():
 
     stockchecker.distribute_products(website_list, products)
 
+    print("running now")
     stockchecker.run(website_list)
 
     scraped_products: list[ScrapedProduct] = []
