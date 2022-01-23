@@ -9,7 +9,7 @@ def parse_json_file(filename: str) -> dict:
 
 
 def get_products(filename: str) -> list[Product]:
-    """This method creates the Product instances"""
+    """returns a Product list parsed from a json file"""
 
     data = parse_json_file(filename)
 

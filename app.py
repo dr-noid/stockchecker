@@ -1,9 +1,11 @@
 import stockchecker
 from models.scrapedproduct import ScrapedProduct
 from utilities import json_parser
+from utilities import args
 
 
 def main():
+    args.parse_args()
     prices = json_parser.get_prices("prices.json")
     products = json_parser.get_products("products.json")
 
