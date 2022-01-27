@@ -6,7 +6,7 @@ from models.scrapedproduct import ScrapedProduct
 from models.website import Website
 
 
-class Alternate(Website):
+class Azerty(Website):
     """Azerty implementation"""
 
     def scrape_product(self, product: Product) -> list[ScrapedProduct]:

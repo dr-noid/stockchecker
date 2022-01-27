@@ -40,6 +40,7 @@ class Website(ABC):
             scraped = self.scrape_product(product)
 
             self.scraped_products.extend(scraped)
+            print(self.scraped_products.__len__())
 
     def request(self, url: str, delay: int = 0) -> str:
         """

@@ -27,8 +27,9 @@ class Alternate(Website):
         scraped_products = []
 
         for item in html_items:
-            scraped_products.append(
-                self.create_product(product, item))
+            scraped_product = self.create_product(product, item)
+            if scraped_product is not None:
+                scraped_products.append(scraped_product)
 
         return scraped_products
 
@@ -62,4 +63,5 @@ class Alternate(Website):
         return float(sanitized_price)
 
     def check_availability(self, stock: str) -> bool:
+        return stock in ["Op voorraad", "Binnenkort op voorraad"]
         return stock.__contains__("Op voorraad")

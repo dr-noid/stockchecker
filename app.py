@@ -1,11 +1,16 @@
+from os import environ
+
 import stockchecker
 from models.scrapedproduct import ScrapedProduct
-from utilities import json_parser
-from utilities import args
+from persistence import database
+from utilities import args, json_parser
 
 
 def main():
     args.parse_args()
+
+    database.init()
+
     prices = json_parser.get_prices("prices.json")
     products = json_parser.get_products("products.json")
 
@@ -22,7 +27,10 @@ def main():
     for website in website_list:
         scraped_products.extend(website.scraped_products)
 
-    print(f"Scraped products: {len(scraped_products)}")
+    print(f"Amount of scraped products: {len(scraped_products)}")
+
+    for scraped_product in scraped_products:
+        database.save(scraped_product)
 
 
 if __name__ == "__main__":

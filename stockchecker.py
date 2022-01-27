@@ -1,7 +1,7 @@
 from models.product import Product
 from models.website import Website
 from sites.alternate import Alternate
-from sites.azerty import Alternate
+from sites.azerty import Azerty
 
 
 def run(websites: list[Website]):
@@ -12,7 +12,7 @@ def run(websites: list[Website]):
 def create_website_list() -> list[Website]:
     website_list: list[Website] = [
         Alternate(),
-        Alternate()
+        Azerty()
     ]
     return website_list
 
