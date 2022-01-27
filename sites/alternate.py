@@ -27,12 +27,13 @@ class Alternate(Website):
         scraped_products = []
 
         for item in html_items:
-            scraped_products.append(
-                self.create_product(product.product_id, item))
+            scraped_product = self.create_product(product, item)
+            if scraped_product is not None:
+                scraped_products.append(scraped_product)
 
         return scraped_products
 
-    def create_product(self, product_id: int, item: Tag) -> ScrapedProduct:
+    def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
         name = item.find("div", attrs={"class": "product-name"})
         price = item.find("span", attrs={"class": "price"})
         stock = item.find("span", attrs={"class": "font-weight-bold"})
@@ -42,11 +43,18 @@ class Alternate(Website):
                 or not isinstance(stock, Tag) or not isinstance(url, str):
             raise TypeError("Incorrect type")
 
-        return ScrapedProduct(
-            product_id=product_id,
+        price = self.strip_price(price.text)
+        availability = self.check_availability(stock.text)
+
+        scraped_product = ScrapedProduct(
+            product_id=product.product_id,
             url=url,
-            store_price=self.strip_price(price.text),
-            availability=self.availability(stock.text))
+            item_price=price,
+            availability=availability)
+
+        if not self.validate_data(product, scraped_product):
+            return None
+        return scraped_product
 
     def strip_price(self, price: str) -> float:
         sanitized_price: str = price.strip("€").strip(
@@ -54,5 +62,6 @@ class Alternate(Website):
 
         return float(sanitized_price)
 
-    def availability(self, stock: str) -> bool:
+    def check_availability(self, stock: str) -> bool:
+        return stock in ["Op voorraad", "Binnenkort op voorraad"]
         return stock.__contains__("Op voorraad")

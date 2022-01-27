@@ -154,3 +154,4 @@ cython_debug/
 # Personal
 .vscode/
 todo.txt
+test.db
