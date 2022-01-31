@@ -1,5 +1,3 @@
-from os import environ
-
 import stockchecker
 from models.scrapedproduct import ScrapedProduct
 from persistence import database
@@ -9,7 +7,7 @@ from utilities import args, json_parser
 def main():
     args.parse_args()
 
-    database.init()
+    database.add_metadata(ScrapedProduct)
 
     prices = json_parser.get_prices("prices.json")
     products = json_parser.get_products("products.json")
