@@ -3,37 +3,37 @@
         {
             "name": "RTX 3060",
             "id": 0,
-            "price": 700
+            "price": 650
         },
         {
             "name": "RTX 3060 Ti",
             "id": 1,
-            "price": 800
+            "price": 750
         },
         {
             "name": "RTX 3070",
             "id": 2,
-            "price": 1000
+            "price": 850
         },
         {
             "name": "RTX 3070 Ti",
             "id": 3,
-            "price": 1400
+            "price": 950
         },
         {
             "name": "RTX 3080",
             "id": 4,
-            "price": 1700
+            "price": 1300
         },
         {
             "name": "RTX 3080 Ti",
             "id": 5,
-            "price": 2000
+            "price": 1500
         },
         {
             "name": "RTX 3090",
             "id": 6,
-            "price": 3300
+            "price": 2000
         }
     ]
 }
