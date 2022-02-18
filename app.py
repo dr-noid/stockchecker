@@ -7,7 +7,7 @@ from utilities import args, json_parser
 def main():
     args.parse_args()
 
-    database.add_metadata(ScrapedProduct)
+    stockchecker.db_init()
 
     prices = json_parser.get_prices("prices.json")
     products = json_parser.get_products("products.json")
@@ -27,8 +27,7 @@ def main():
 
     print(f"Amount of scraped products: {len(scraped_products)}")
 
-    for scraped_product in scraped_products:
-        database.save(scraped_product)
+    stockchecker.save(scraped_products)
 
 
 if __name__ == "__main__":
