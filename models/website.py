@@ -40,7 +40,6 @@ class Website(ABC):
             scraped = self.scrape_product(product)
 
             self.scraped_products.extend(scraped)
-            print(self.scraped_products.__len__())
 
     def request(self, url: str, delay: int = 0) -> str:
         """
@@ -63,13 +62,12 @@ class Website(ABC):
         return int(price) < threshold
 
     def validate_data(self, product: Product, scraped_product: ScrapedProduct) -> bool:
-        result: bool = True
         if self.price_filter:
-            result = self.price_check(product.price_threshold,
-                                      scraped_product.item_price)
+            return self.price_check(product.price_threshold,
+                                    float(scraped_product.item_price))
         if self.availability_filter:
-            result = scraped_product.availability
-        return result
+            return scraped_product.availability
+        return True
 
     def name(self, lower: bool = True) -> str:
         if lower:

@@ -17,7 +17,6 @@ def save(obj) -> None:
     if obj is None:
         print("can't save NoneType")
         return
-    print(type(obj))
     session.add(obj)
     session.commit()
     session.close()

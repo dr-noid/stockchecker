@@ -64,4 +64,3 @@ class Alternate(Website):
 
     def check_availability(self, stock: str) -> bool:
         return stock in ["Op voorraad", "Binnenkort op voorraad"]
-        return stock.__contains__("Op voorraad")
