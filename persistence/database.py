@@ -15,7 +15,6 @@ def add_metadata(base):
 
 def save(obj) -> None:
     if obj is None:
-        print("can't save NoneType")
         return
     session.add(obj)
     session.commit()
