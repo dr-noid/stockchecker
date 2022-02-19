@@ -51,6 +51,7 @@ def add_prices_to_products(products: list[Product], prices: dict) -> None:
 
 
 def db_init() -> None:
+    database.init()
     database.add_metadata(ScrapedProduct)
 
 

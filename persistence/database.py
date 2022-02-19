@@ -21,8 +21,8 @@ def save(obj) -> None:
     session.close()
 
 
-def init(obj) -> None:
-    add_metadata(obj)
+def init() -> None:
+    Base.metadata.drop_all(engine)
 
 
 if __name__ == "__main__":
