@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from persistence.database import Base, add_metadata
+from persistence.database import Base
 from sqlalchemy import Boolean, Column, DateTime, Float, Integer, String
 from sqlalchemy.sql import func
 

@@ -1,11 +1,9 @@
 import stockchecker
 from models.scrapedproduct import ScrapedProduct
-from persistence import database
-from utilities import args, json_parser
+from utilities import json_parser
 
 
 def main():
-    args.parse_args()
 
     stockchecker.db_init()
 
