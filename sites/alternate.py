@@ -28,7 +28,7 @@ class Alternate(Website):
 
         for item in html_items:
             scraped_product = self.create_product(product, item)
-            if scraped_product is not None:
+            if self.validate_scraped(scraped_product, product):
                 scraped_products.append(scraped_product)
 
         return scraped_products
@@ -52,8 +52,6 @@ class Alternate(Website):
             item_price=price,
             availability=availability)
 
-        if not self.validate_data(product, scraped_product):
-            return None
         return scraped_product
 
     def strip_price(self, price: str) -> float:
