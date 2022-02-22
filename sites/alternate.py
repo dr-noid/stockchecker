@@ -10,9 +10,7 @@ class Alternate(Website):
     """Alternate implementation"""
 
     def scrape_product(self, product: Product) -> list[ScrapedProduct]:
-        page_source = self.request(product.url)
-
-        soup = self.soupify(page_source)
+        soup = self.get_soup(product.url, delay=1)
 
         listings_container: Tag | NavigableString | None = soup.find(
             "div", attrs={"class": "grid-container listing"})

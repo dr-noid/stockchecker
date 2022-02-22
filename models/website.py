@@ -42,10 +42,7 @@ class Website(ABC):
             self.scraped_products.extend(scraped)
 
     def request(self, url: str, delay: int = 0) -> str:
-        """
-        Make a request to the given url,
-        delay is the amount of time to wait for dynamic content to load.
-        """
+
         driver = Chrome(
             executable_path=ChromeDriverManager().install(), options=options)
 
@@ -55,8 +52,13 @@ class Website(ABC):
 
         return driver.page_source
 
-    def soupify(self, page_source: str | bytes) -> BeautifulSoup:
-        return BeautifulSoup(page_source, "html.parser")
+    def get_soup(self, url: str, delay: int = 0) -> BeautifulSoup:
+        """
+        Make a request to the given url,
+        The `delay` param is the amount of time to wait for dynamic content to load.
+        (For SSR webapps)
+        """
+        return BeautifulSoup(self.request(url, delay), "html.parser")
 
     def price_check(self, threshold: int, price: float) -> bool:
         return int(price) < threshold
