@@ -109,3 +109,6 @@ class Website(ABC):
     @abstractmethod
     def check_availability(self, stock_desc: str) -> bool:
         pass
+
+    def __repr__(self) -> str:
+        return f"{self.name()}\n Products: {self.products}"

@@ -40,7 +40,7 @@ class Azerty(Website):
         if not isinstance(name, str) or not isinstance(url, str):
             raise TypeError("Incorrect type")
 
-        url = "https://azerty.nl/" + url
+        url = "https://www.azerty.nl/" + url
         price = self.strip_price(price_element.text)
         availability = self.check_availability(stock_element.text)
 

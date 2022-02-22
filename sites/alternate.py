@@ -32,17 +32,17 @@ class Alternate(Website):
         return scraped_products
 
     def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
-        name = item.find("div", attrs={"class": "product-name"})
-        price = item.find("span", attrs={"class": "price"})
-        stock = item.find("span", attrs={"class": "font-weight-bold"})
+        name_element = item.find("div", attrs={"class": "product-name"})
+        price_element = item.find("span", attrs={"class": "price"})
+        stock_element = item.find("span", attrs={"class": "font-weight-bold"})
         url = item["href"]
 
-        if not isinstance(name, Tag) or not isinstance(price, Tag) \
-                or not isinstance(stock, Tag) or not isinstance(url, str):
+        if not isinstance(name_element, Tag) or not isinstance(price_element, Tag) \
+                or not isinstance(stock_element, Tag) or not isinstance(url, str):
             raise TypeError("Incorrect type")
 
-        price = self.strip_price(price.text)
-        availability = self.check_availability(stock.text)
+        price = self.strip_price(price_element.text)
+        availability = self.check_availability(stock_element.text)
 
         scraped_product = ScrapedProduct(
             product_id=product.product_id,
