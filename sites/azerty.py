@@ -21,8 +21,9 @@ class Azerty(Website):
         scraped_products = []
 
         for item in html_items:
-            scraped_products.append(
-                self.create_product(product, item))
+            scraped_product = self.create_product(product, item)
+            if scraped_product is not None:
+                scraped_products.append(scraped_product)
 
         return scraped_products
 
