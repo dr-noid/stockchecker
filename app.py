@@ -4,7 +4,6 @@ from utilities import json_parser
 
 
 def main():
-
     stockchecker.db_init()
 
     prices = json_parser.get_prices("prices.json")
