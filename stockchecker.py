@@ -9,6 +9,7 @@ from models.website import Website
 from persistence import database
 from sites.alternate import Alternate
 from sites.azerty import Azerty
+from sites.megekko import Megekko
 
 
 def run(websites: list[Website]):
@@ -23,7 +24,8 @@ def create_website_list(price_filter: bool = True, availability_filter: bool = T
     """
     website_list: list[Website] = [
         Alternate(),
-        Azerty()
+        Azerty(),
+        Megekko()
     ]
     # If any of the arguments are provided as False we change the all the websites accordingly
     if not price_filter or not availability_filter:

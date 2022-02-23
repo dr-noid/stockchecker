@@ -42,10 +42,7 @@ class Website(ABC):
             self.scraped_products.extend(scraped)
 
     def request(self, url: str, delay: int = 0) -> str:
-        """
-        Make a request to the given url,
-        delay is the amount of time to wait for dynamic content to load.
-        """
+
         driver = Chrome(
             executable_path=ChromeDriverManager().install(), options=options)
 
@@ -55,13 +52,22 @@ class Website(ABC):
 
         return driver.page_source
 
-    def soupify(self, page_source: str | bytes) -> BeautifulSoup:
-        return BeautifulSoup(page_source, "html.parser")
+    def get_soup(self, url: str, delay: int = 0) -> BeautifulSoup:
+        """
+        Make a request to the given url,
+        The `delay` param is the amount of time to wait for dynamic content to load.
+        (For SSR webapps)
+        """
+        return BeautifulSoup(self.request(url, delay), "html.parser")
 
     def price_check(self, threshold: int, price: float) -> bool:
         return int(price) < threshold
 
-    def validate_data(self, product: Product, scraped_product: ScrapedProduct) -> bool:
+    def validate_data(self, scraped_product: ScrapedProduct, product: Product) -> bool:
+        """
+        Returns `True` if the scraped_product passes all the enabled filters.
+        Products are automatically validated when using the `construct_product()` method
+        """
         if self.price_filter:
             return self.price_check(product.price_threshold,
                                     float(scraped_product.item_price))
@@ -74,6 +80,14 @@ class Website(ABC):
             return self.__class__.__name__.lower()
         return self.__class__.__name__
 
+    def validate_scraped(self, scraped_product: ScrapedProduct | None, product: Product) -> bool:
+        """Returns `True` if the passed `ScrapedProduct` is valid."""
+        if scraped_product is None:
+            return False
+        if not self.validate_data(scraped_product, product):
+            return False
+        return True
+
     @abstractmethod
     def scrape_product(self, product: Product) -> list[ScrapedProduct]:
         """
@@ -82,7 +96,7 @@ class Website(ABC):
         """
 
     @abstractmethod
-    def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
+    def find_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
         """
         Construct a ScrapedProduct object and return it.
         If any checks fail return `None`.
@@ -95,3 +109,6 @@ class Website(ABC):
     @abstractmethod
     def check_availability(self, stock_desc: str) -> bool:
         pass
+
+    def __repr__(self) -> str:
+        return f"{self.name()}\n Products: {self.products}"

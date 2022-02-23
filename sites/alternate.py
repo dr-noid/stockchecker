@@ -10,9 +10,7 @@ class Alternate(Website):
     """Alternate implementation"""
 
     def scrape_product(self, product: Product) -> list[ScrapedProduct]:
-        page_source = self.request(product.url)
-
-        soup = self.soupify(page_source)
+        soup = self.get_soup(product.url, delay=1)
 
         listings_container: Tag | NavigableString | None = soup.find(
             "div", attrs={"class": "grid-container listing"})
@@ -27,34 +25,26 @@ class Alternate(Website):
         scraped_products = []
 
         for item in html_items:
-            scraped_product = self.create_product(product, item)
-            if scraped_product is not None:
+            scraped_product = self.find_product(product, item)
+            if self.validate_scraped(scraped_product, product):
                 scraped_products.append(scraped_product)
 
         return scraped_products
 
-    def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
-        name = item.find("div", attrs={"class": "product-name"})
-        price = item.find("span", attrs={"class": "price"})
-        stock = item.find("span", attrs={"class": "font-weight-bold"})
+    def find_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
+        name_element = item.find("div", attrs={"class": "product-name"})
+        price_element = item.find("span", attrs={"class": "price"})
+        stock_element = item.find("span", attrs={"class": "font-weight-bold"})
         url = item["href"]
 
-        if not isinstance(name, Tag) or not isinstance(price, Tag) \
-                or not isinstance(stock, Tag) or not isinstance(url, str):
+        if not isinstance(name_element, Tag) or not isinstance(price_element, Tag) \
+                or not isinstance(stock_element, Tag) or not isinstance(url, str):
             raise TypeError("Incorrect type")
 
-        price = self.strip_price(price.text)
-        availability = self.check_availability(stock.text)
+        price = self.strip_price(price_element.text)
+        availability = self.check_availability(stock_element.text)
 
-        scraped_product = ScrapedProduct(
-            product_id=product.product_id,
-            url=url,
-            item_price=price,
-            availability=availability)
-
-        if not self.validate_data(product, scraped_product):
-            return None
-        return scraped_product
+        return ScrapedProduct(product.product_id, url, price, availability)
 
     def strip_price(self, price: str) -> float:
         sanitized_price: str = price.strip("€").strip(

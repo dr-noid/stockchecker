@@ -6,15 +6,14 @@ from models.scrapedproduct import ScrapedProduct
 from models.website import Website
 
 
-class Azerty(Website):
-    """Azerty implementation"""
+class Megekko(Website):
+    """Megekko implementation"""
 
     def scrape_product(self, product: Product) -> list[ScrapedProduct]:
-        soup = self.get_soup(product.url, delay=5)
+        soup = self.get_soup(product.url, delay=1)
 
         html_items: ResultSet[Any] = soup.find_all(
-            "div", attrs={"class": "item_container default_view"}
-        )
+            "div", attrs={"id": "content_list_content"})
 
         scraped_products = []
 
@@ -26,29 +25,29 @@ class Azerty(Website):
         return scraped_products
 
     def find_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
-        a_element = item.find("a", attrs={"class": "item-img"}, recursive=True)
-        price_element = item.find("span", attrs={"class": "price"})
-        stock_element = item.find("span", attrs={"class": "stock_desc"})
+        name_element = item.find("h2", attrs={"class": "title"})
+        a_element = item.find("a", attrs={"class": "image"})
+        stock_element = item.find("div", attrs={"class": "subtitle"})
+        price_element = item.find("div", attrs={"class": "euro"})
 
-        if not isinstance(a_element, Tag) or not isinstance(price_element, Tag) \
-                or not isinstance(stock_element, Tag):
+        if not isinstance(name_element, Tag) or not isinstance(a_element, Tag) \
+                or not isinstance(stock_element, Tag) or not isinstance(price_element, Tag):
             raise TypeError("Incorrect type")
 
-        name = a_element["title"]
+        name = name_element.text
         url = a_element["href"]
 
         if not isinstance(name, str) or not isinstance(url, str):
             raise TypeError("Incorrect type")
 
-        url = "https://www.azerty.nl/" + url
+        url = "https://www.megekko.nl/" + url
         price = self.strip_price(price_element.text)
         availability = self.check_availability(stock_element.text)
 
         return ScrapedProduct(product.product_id, url, price, availability)
 
     def strip_price(self, price: str) -> float:
-        sanitized_price: str = price.replace(",", ".")
-        return float(sanitized_price)
+        return float(price.strip(",-"))
 
     def check_availability(self, stock: str) -> bool:
-        return stock.__contains__("Volgende werkdag in huis")
+        return stock.__contains__("Uit eigen voorraad leverbaar.")
