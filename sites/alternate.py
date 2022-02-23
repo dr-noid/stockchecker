@@ -17,7 +17,9 @@ class Alternate(Website):
 
         # We need a Tag object to continue the process
         if not isinstance(listings_container, Tag):
-            raise TypeError("listings_container must be of type Tag")
+            # TODO: change print calls to logging
+            print("listings_container must be of type Tag")
+            return []
 
         html_items: ResultSet[Any] = listings_container.find_all(
             "a", attrs={"class": "productBox"})
