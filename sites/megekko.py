@@ -34,21 +34,17 @@ class Megekko(Website):
                 or not isinstance(stock_element, Tag) or not isinstance(price_element, Tag):
             raise TypeError("Incorrect type")
 
-        url = a_element["href"]
         name = name_element.text
+        url = a_element["href"]
 
         if not isinstance(name, str) or not isinstance(url, str):
             raise TypeError("Incorrect type")
 
         url = "https://www.megekko.nl/" + url
-
-        availability = self.check_availability(stock_element.text)
         price = self.strip_price(price_element.text)
+        availability = self.check_availability(stock_element.text)
 
-        print(name)
-        print(url)
-        print(availability)
-        print(price)
+        return ScrapedProduct(product.product_id, url, price, availability)
 
     def strip_price(self, price: str) -> float:
         return float(price.strip(",-"))
