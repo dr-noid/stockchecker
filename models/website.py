@@ -96,7 +96,7 @@ class Website(ABC):
         """
 
     @abstractmethod
-    def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
+    def find_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
         """
         Construct a ScrapedProduct object and return it.
         If any checks fail return `None`.

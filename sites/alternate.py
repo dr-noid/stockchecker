@@ -25,13 +25,13 @@ class Alternate(Website):
         scraped_products = []
 
         for item in html_items:
-            scraped_product = self.create_product(product, item)
+            scraped_product = self.find_product(product, item)
             if self.validate_scraped(scraped_product, product):
                 scraped_products.append(scraped_product)
 
         return scraped_products
 
-    def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
+    def find_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
         name_element = item.find("div", attrs={"class": "product-name"})
         price_element = item.find("span", attrs={"class": "price"})
         stock_element = item.find("span", attrs={"class": "font-weight-bold"})
@@ -44,13 +44,7 @@ class Alternate(Website):
         price = self.strip_price(price_element.text)
         availability = self.check_availability(stock_element.text)
 
-        scraped_product = ScrapedProduct(
-            product_id=product.product_id,
-            url=url,
-            item_price=price,
-            availability=availability)
-
-        return scraped_product
+        return ScrapedProduct(product.product_id, url, price, availability)
 
     def strip_price(self, price: str) -> float:
         sanitized_price: str = price.strip("€").strip(

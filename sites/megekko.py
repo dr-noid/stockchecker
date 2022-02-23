@@ -18,13 +18,13 @@ class Megekko(Website):
         scraped_products = []
 
         for item in html_items:
-            scraped_product = self.create_product(product, item)
+            scraped_product = self.find_product(product, item)
             if self.validate_scraped(scraped_product, product):
                 scraped_products.append(scraped_product)
 
         return scraped_products
 
-    def create_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
+    def find_product(self, product: Product, item: Tag) -> ScrapedProduct | None:
         name_element = item.find("h2", attrs={"class": "title"})
         a_element = item.find("a", attrs={"class": "image"})
         stock_element = item.find("div", attrs={"class": "subtitle"})
