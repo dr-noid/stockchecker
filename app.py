@@ -4,11 +4,10 @@ from utilities import json_parser
 
 
 def main():
-
     stockchecker.db_init()
 
     prices = json_parser.get_prices("prices.json")
-    products = json_parser.get_products("products.json")
+    products = json_parser.get_products()
 
     stockchecker.add_prices_to_products(products, prices)
 
