@@ -3,6 +3,8 @@ This module has high level funcionality to do stock checking.
 And keep clutter out of app.py of course.
 """
 
+from timeit import default_timer as timer
+
 from models.product import Product
 from models.scrapedproduct import ScrapedProduct
 from models.website import Website
@@ -14,7 +16,12 @@ from sites.megekko import Megekko
 
 def run(websites: list[Website]):
     for website in websites:
+        print(f"Scraping {website.name()}...")
+        start = timer()
         website.run()
+        end = timer()
+        print(f"Done, {len(website.scraped_products)} products scraped")
+        print(f"Time: {round(end - start)} seconds\n")
 
 
 def create_website_list(price_filter: bool = True, availability_filter: bool = True) -> list[Website]:

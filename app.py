@@ -15,7 +15,6 @@ def main():
 
     stockchecker.distribute_products(website_list, products)
 
-    print("running now")
     stockchecker.run(website_list)
 
     scraped_products: list[ScrapedProduct] = []
