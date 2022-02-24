@@ -1,6 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 
+import stockchecker
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from selenium.webdriver import Chrome
@@ -42,6 +43,8 @@ class Website(ABC):
             scraped = self.scrape_product(product)
 
             self.scraped_products.extend(scraped)
+
+        stockchecker.save_products(self.scraped_products)
 
     def request(self, url: str, delay: int = 0) -> str:
         self.driver.get(url)
