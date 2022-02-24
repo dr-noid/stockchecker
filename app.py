@@ -1,10 +1,14 @@
 import stockchecker
 from models.scrapedproduct import ScrapedProduct
-from utilities import json_parser
+from utilities import json_parser, launch_args
 
 
 def main():
-    stockchecker.db_init()
+    settings = launch_args.parse_args()
+
+    if settings["db_reset"]:
+        print("DB flushed")
+        stockchecker.db_init()
 
     prices = json_parser.get_prices("prices.json")
     products = json_parser.get_products()
@@ -17,13 +21,7 @@ def main():
 
     stockchecker.run(website_list)
 
-    scraped_products: list[ScrapedProduct] = []
-    for website in website_list:
-        scraped_products.extend(website.scraped_products)
-
-    print(f"Amount of scraped products: {len(scraped_products)}")
-
-    stockchecker.save(scraped_products)
+    stockchecker.save_all(website_list)
 
 
 if __name__ == "__main__":

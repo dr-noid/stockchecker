@@ -64,9 +64,26 @@ def db_init() -> None:
     database.add_metadata(ScrapedProduct)
 
 
-def save(scraped_products: list[ScrapedProduct]) -> None:
+def save(scraped_product: ScrapedProduct) -> None:
+    database.save(scraped_product)
+
+
+def save_list(scraped_products: list[ScrapedProduct]) -> None:
     for scraped_product in scraped_products:
-        database.save(scraped_product)
+        save(scraped_product)
+
+
+def save_all(website_list: list[Website]) -> None:
+    # scraped_products: list[ScrapedProduct] = []
+    counter = 0
+    for website in website_list:
+        for scraped_product in website.scraped_products:
+            save(scraped_product)
+            counter += 1
+        # scraped_products.extend(website.scraped_products)
+    # print(f"Amount of scraped products: {len(scraped_products)}")
+    print(f"Amount of scraped products: {counter}")
+    # return scraped_products
 
 
 if __name__ == "__main__":
