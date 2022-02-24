@@ -26,6 +26,8 @@ class Website(ABC):
         self.scraped_products: list[ScrapedProduct] = []
         self.price_filter = price_filter
         self.availability_filter = availability_filter
+        self.driver = Chrome(
+            executable_path=ChromeDriverManager().install(), options=options)
 
     def run(self) -> None:
         """
@@ -42,15 +44,11 @@ class Website(ABC):
             self.scraped_products.extend(scraped)
 
     def request(self, url: str, delay: int = 0) -> str:
+        self.driver.get(url)
 
-        driver = Chrome(
-            executable_path=ChromeDriverManager().install(), options=options)
+        self.driver.implicitly_wait(delay)
 
-        driver.get(url)
-
-        driver.implicitly_wait(delay)
-
-        return driver.page_source
+        return self.driver.page_source
 
     def get_soup(self, url: str, delay: int = 0) -> BeautifulSoup:
         """
