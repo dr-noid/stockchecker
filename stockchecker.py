@@ -22,6 +22,7 @@ def run(websites: list[Website]):
         end = timer()
         print(f"Done, {len(website.scraped_products)} products scraped")
         print(f"Time: {round(end - start)} seconds\n")
+    print(f"total products scraped: {saved_products}")
 
 
 def create_website_list(price_filter: bool = True, availability_filter: bool = True) -> list[Website]:
@@ -64,26 +65,18 @@ def db_init() -> None:
     database.add_metadata(ScrapedProduct)
 
 
+saved_products = 0
+
+
 def save(scraped_product: ScrapedProduct) -> None:
     database.save(scraped_product)
+    global saved_products
+    saved_products += 1
 
 
-def save_list(scraped_products: list[ScrapedProduct]) -> None:
+def save_products(scraped_products: list[ScrapedProduct]) -> None:
     for scraped_product in scraped_products:
         save(scraped_product)
-
-
-def save_all(website_list: list[Website]) -> None:
-    # scraped_products: list[ScrapedProduct] = []
-    counter = 0
-    for website in website_list:
-        for scraped_product in website.scraped_products:
-            save(scraped_product)
-            counter += 1
-        # scraped_products.extend(website.scraped_products)
-    # print(f"Amount of scraped products: {len(scraped_products)}")
-    print(f"Amount of scraped products: {counter}")
-    # return scraped_products
 
 
 if __name__ == "__main__":

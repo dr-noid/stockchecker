@@ -21,8 +21,6 @@ def main():
 
     stockchecker.run(website_list)
 
-    stockchecker.save_all(website_list)
-
 
 if __name__ == "__main__":
     main()
