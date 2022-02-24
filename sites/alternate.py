@@ -18,7 +18,7 @@ class Alternate(Website):
         # We need a Tag object to continue the process
         if not isinstance(listings_container, Tag):
             # TODO: change print calls to logging
-            print("Alternate: Error")
+            self.log("cant find listings")
             return []
 
         html_items: ResultSet[Any] = listings_container.find_all(

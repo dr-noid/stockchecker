@@ -89,6 +89,9 @@ class Website(ABC):
             return False
         return True
 
+    def log(self, message):
+        print(f"{self.name().upper()} LOG: {message}")
+
     @abstractmethod
     def scrape_product(self, product: Product) -> list[ScrapedProduct]:
         """
