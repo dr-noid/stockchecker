@@ -7,8 +7,11 @@ def parse_args() -> dict[str, bool]:
     if not len(sys.argv) > 0:
         return settings_dict
 
-    if ("--reset", "-R") in sys.argv:
-        settings_dict["db_reset"] = True
+    args = sys.argv[1:]
+
+    for arg in args:
+        if arg in ("--reset", "-R"):
+            settings_dict["db_reset"] = True
 
     return settings_dict
 
