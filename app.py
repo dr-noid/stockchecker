@@ -1,3 +1,5 @@
+import asyncio
+
 import stockchecker
 from models.scrapedproduct import ScrapedProduct
 from utilities import json_parser, launch_args
@@ -19,7 +21,7 @@ def main():
 
     stockchecker.distribute_products(website_list, products)
 
-    stockchecker.run(website_list)
+    asyncio.run(stockchecker.run(website_list))
 
 
 if __name__ == "__main__":

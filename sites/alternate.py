@@ -9,8 +9,8 @@ from models.website import Website
 class Alternate(Website):
     """Alternate implementation"""
 
-    def scrape_product(self, product: Product) -> list[ScrapedProduct]:
-        soup = self.get_soup(product.url, delay=1)
+    async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
+        soup = await self.get_soup(product.url, delay=1)
 
         listings_container: Tag | NavigableString | None = soup.find(
             "div", attrs={"class": "grid-container listing"})
