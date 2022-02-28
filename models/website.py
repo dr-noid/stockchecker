@@ -1,5 +1,6 @@
 import os
 from abc import ABC, abstractmethod
+from time import sleep
 
 import stockchecker
 from bs4 import BeautifulSoup
@@ -50,7 +51,7 @@ class Website(ABC):
     def request(self, url: str, delay: int = 0) -> str:
         self.driver.get(url)
 
-        self.driver.implicitly_wait(delay)
+        sleep(delay)
 
         return self.driver.page_source
 
