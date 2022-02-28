@@ -1,6 +1,6 @@
 import sys
 
-settings_dict = {"db_reset": False}
+settings_dict = {"db_reset": True}
 
 
 def parse_args() -> dict[str, bool]:
@@ -10,8 +10,8 @@ def parse_args() -> dict[str, bool]:
     args = sys.argv[1:]
 
     for arg in args:
-        if arg in ("--reset", "-R"):
-            settings_dict["db_reset"] = True
+        if arg in ("--keep", "-K"):
+            settings_dict["db_reset"] = False
 
     return settings_dict
 
