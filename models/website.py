@@ -1,25 +1,12 @@
-import asyncio
-import os
 from abc import ABC, abstractmethod
-from time import sleep
 
 import pyppeteer
 import stockchecker
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 
 from models.product import Product
 from models.scrapedproduct import ScrapedProduct
-
-os.environ["WDM_PRINT_FIRST_LINE"] = "False"
-os.environ["WDM_LOG_LEVEL"] = '0'
-
-options = Options()
-options.add_argument('headless')
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 
 class Website(ABC):
@@ -31,9 +18,6 @@ class Website(ABC):
         self.price_filter = price_filter
         self.availability_filter = availability_filter
 
-    async def setup_driver(self) -> None:
-        self.driver = await pyppeteer.launch()
-
     async def run(self) -> None:
         """
         Use the products URLs to scrape data
@@ -43,7 +27,9 @@ class Website(ABC):
         `Note:` Only one request has to fail for this method to return `False`,
         some data may still have been scraped.
         """
-        await self.setup_driver()
+        self.driver = await pyppeteer.launch()
+
+        self.log("Running")
 
         for product in self.products:
             scraped = await self.scrape_product(product)

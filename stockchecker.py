@@ -22,14 +22,6 @@ async def run(websites: list[Website]):
     await asyncio.gather(*coroutines)
     end = timer()
     print(f"Time: {round(end - start)} seconds\n")
-
-    # for website in websites:
-    #     print(f"Scraping {website.name()}...")
-    #     start = timer()
-    #     website.run()
-    #     end = timer()
-    #     print(f"Done, {len(website.scraped_products)} products scraped")
-    #     print(f"Time: {round(end - start)} seconds\n")
     print(f"total products scraped: {saved_products}")
 
 
