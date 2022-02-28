@@ -44,8 +44,8 @@ class Website(ABC):
 
             self.scraped_products.extend(scraped)
 
-        stockchecker.save_products(self.scraped_products)
         self.driver.close()
+        stockchecker.save_products(self.scraped_products)
 
     def request(self, url: str, delay: int = 0) -> str:
         self.driver.get(url)
