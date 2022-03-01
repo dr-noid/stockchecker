@@ -10,7 +10,7 @@ class Alternate(Website):
     """Alternate implementation"""
 
     async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
-        soup = await self.get_soup(product.url, delay=1)
+        soup = await self.get_soup(product.url)
 
         listings_container: Tag | NavigableString | None = soup.find(
             "div", attrs={"class": "grid-container listing"})

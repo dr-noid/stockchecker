@@ -10,7 +10,7 @@ class Azerty(Website):
     """Azerty implementation"""
 
     async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
-        soup = await self.get_soup(product.url, delay=5)
+        soup = await self.get_soup(product.url)
 
         html_items: ResultSet[Any] = soup.find_all(
             "div", attrs={"class": "item_container default_view"}

@@ -10,7 +10,7 @@ class Megekko(Website):
     """Megekko implementation"""
 
     async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
-        soup = await self.get_soup(product.url, delay=1)
+        soup = await self.get_soup(product.url)
 
         html_items: ResultSet[Any] = soup.find_all(
             "div", attrs={"id": "content_list_content"})

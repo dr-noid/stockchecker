@@ -40,20 +40,20 @@ class Website(ABC):
 
         stockchecker.save_products(self.scraped_products)
 
-    async def request(self, url: str, delay: int = 0) -> str:
+    async def request(self, url: str) -> str:
         page = await self.driver.newPage()
 
         await page.goto(url, waitUntil='networkidle2')
 
         return await page.content()
 
-    async def get_soup(self, url: str, delay: int = 0) -> BeautifulSoup:
+    async def get_soup(self, url: str) -> BeautifulSoup:
         """
         Make a request to the given url,
         The `delay` param is the amount of time to wait for dynamic content to load.
         (For SSR webapps)
         """
-        return BeautifulSoup(await self.request(url, delay), "html.parser")
+        return BeautifulSoup(await self.request(url), "html.parser")
 
     def price_check(self, threshold: int, price: float) -> bool:
         return int(price) < threshold
