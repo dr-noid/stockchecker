@@ -1,23 +1,12 @@
-import os
 from abc import ABC, abstractmethod
-from time import sleep
 
+import pyppeteer
 import stockchecker
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 
 from models.product import Product
 from models.scrapedproduct import ScrapedProduct
-
-os.environ["WDM_PRINT_FIRST_LINE"] = "False"
-os.environ["WDM_LOG_LEVEL"] = '0'
-
-options = Options()
-options.add_argument('headless')
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 
 class Website(ABC):
@@ -28,10 +17,8 @@ class Website(ABC):
         self.scraped_products: list[ScrapedProduct] = []
         self.price_filter = price_filter
         self.availability_filter = availability_filter
-        self.driver = Chrome(
-            executable_path=ChromeDriverManager().install(), options=options)
 
-    def run(self) -> None:
+    async def run(self) -> None:
         """
         Use the products URLs to scrape data
 
@@ -40,28 +27,33 @@ class Website(ABC):
         `Note:` Only one request has to fail for this method to return `False`,
         some data may still have been scraped.
         """
+        self.driver = await pyppeteer.launch()
+
+        self.log("Running")
+
         for product in self.products:
-            scraped = self.scrape_product(product)
+            scraped = await self.scrape_product(product)
 
             self.scraped_products.extend(scraped)
 
-        self.driver.close()
+        await self.driver.close()
+
         stockchecker.save_products(self.scraped_products)
 
-    def request(self, url: str, delay: int = 0) -> str:
-        self.driver.get(url)
+    async def request(self, url: str, delay: int = 0) -> str:
+        page = await self.driver.newPage()
 
-        sleep(delay)
+        await page.goto(url, waitUntil='networkidle2')
 
-        return self.driver.page_source
+        return await page.content()
 
-    def get_soup(self, url: str, delay: int = 0) -> BeautifulSoup:
+    async def get_soup(self, url: str, delay: int = 0) -> BeautifulSoup:
         """
         Make a request to the given url,
         The `delay` param is the amount of time to wait for dynamic content to load.
         (For SSR webapps)
         """
-        return BeautifulSoup(self.request(url, delay), "html.parser")
+        return BeautifulSoup(await self.request(url, delay), "html.parser")
 
     def price_check(self, threshold: int, price: float) -> bool:
         return int(price) < threshold
@@ -95,7 +87,7 @@ class Website(ABC):
         print(f"{self.name().upper()} LOG: {message}")
 
     @abstractmethod
-    def scrape_product(self, product: Product) -> list[ScrapedProduct]:
+    async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
         """
         Scrape a product, returns a `list[ScrapedProduct]`.
         If no items are found, returns an empty `list`.
