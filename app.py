@@ -1,12 +1,11 @@
 import asyncio
 from os import environ
+from time import sleep
 
 from utilities import args_parser, json_parser, notifications
 
 
 def main():
-    args_parser.parse_args()
-
     import stockchecker
 
     if environ["db_reset"] == "True":
@@ -22,10 +21,15 @@ def main():
 
     stockchecker.distribute_products(website_list, products)
 
-    # asyncio.run(stockchecker.run(website_list))
+    asyncio.run(stockchecker.run(website_list))
 
     notifications.send_notifications()
 
 
 if __name__ == "__main__":
-    main()
+
+    args_parser.parse_args()
+
+    while True:
+        main()
+        sleep(3600)
