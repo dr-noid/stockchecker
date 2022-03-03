@@ -1,14 +1,15 @@
 import asyncio
+from os import environ
 
-from utilities import args_parser, json_parser
+from utilities import args_parser, json_parser, notifications
 
 
 def main():
-    settings = args_parser.parse_args()
+    args_parser.parse_args()
 
     import stockchecker
 
-    if settings["db_reset"]:
+    if environ["db_reset"] == "True":
         print("DB flushed")
         stockchecker.db_init()
 
@@ -21,10 +22,9 @@ def main():
 
     stockchecker.distribute_products(website_list, products)
 
-    asyncio.run(stockchecker.run(website_list))
+    # asyncio.run(stockchecker.run(website_list))
 
-    if settings["notifs"]:
-        stockchecker.send_notifications()
+    notifications.send_notifications()
 
 
 if __name__ == "__main__":

@@ -7,8 +7,6 @@ import asyncio
 from os import environ
 from timeit import default_timer as timer
 
-from pywhatkit.whats import sendwhatmsg_to_group_instantly
-
 from models.product import Product
 from models.scrapedproduct import ScrapedProduct
 from models.website import Website
@@ -16,8 +14,6 @@ from persistence import database
 from sites.alternate import Alternate
 from sites.azerty import Azerty
 from sites.megekko import Megekko
-
-WHATSAPP_GROUP_ID = environ.get("WHATSAPP_GROUP_ID")
 
 
 async def run(websites: list[Website]):
@@ -82,22 +78,6 @@ def save(scraped_product: ScrapedProduct) -> None:
 def save_products(scraped_products: list[ScrapedProduct]) -> None:
     for scraped_product in scraped_products:
         save(scraped_product)
-
-
-def send_notif(product: ScrapedProduct) -> None:
-    p = product
-    msg = f"{p.url}\nPrice: {p.item_price}"
-    sendwhatmsg_to_group_instantly(
-        group_id=WHATSAPP_GROUP_ID, message=msg, wait_time=7, tab_close=True, close_time=0)
-
-
-def send_notifications() -> None:
-    products: list[ScrapedProduct] = database.session.query(
-        ScrapedProduct).all()
-    print(len(products))
-    for p in products:
-        print(p)
-        send_notif(p)
 
 
 if __name__ == "__main__":
