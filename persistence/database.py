@@ -21,6 +21,11 @@ def save(obj) -> None:
     session.close()
 
 
+def get_all(table) -> list:
+    result = session.query(table).all()
+    return result
+
+
 def init() -> None:
     Base.metadata.drop_all(engine)
 
