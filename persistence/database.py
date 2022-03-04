@@ -22,7 +22,9 @@ def save(obj) -> None:
 
 
 def init() -> None:
+    from models.scrapedproduct import ScrapedProduct
     Base.metadata.drop_all(engine)
+    add_metadata(ScrapedProduct)
 
 
 if __name__ == "__main__":

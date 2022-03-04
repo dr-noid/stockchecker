@@ -13,6 +13,24 @@ from persistence import database
 from sites.alternate import Alternate
 from sites.azerty import Azerty
 from sites.megekko import Megekko
+from utilities import json_parser
+from utilities.settings import program_settings
+
+
+def main() -> None:
+    if program_settings.db_reset:
+        print("DB flushed")
+        database.init()
+
+    prices = json_parser.get_prices("prices.json")
+    products = json_parser.get_products()
+    add_prices_to_products(products, prices)
+
+    website_list = create_website_list()
+
+    distribute_products(website_list, products)
+
+    asyncio.run(run(website_list))
 
 
 async def run(websites: list[Website]):
@@ -58,11 +76,6 @@ def distribute_products(websites: list[Website], products: list[Product]) -> Non
 def add_prices_to_products(products: list[Product], prices: dict) -> None:
     for product in products:
         product.price_threshold = prices[product.product_id]
-
-
-def db_init() -> None:
-    database.init()
-    database.add_metadata(ScrapedProduct)
 
 
 saved_products = 0

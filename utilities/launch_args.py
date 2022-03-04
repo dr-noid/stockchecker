@@ -1,19 +1,21 @@
 import sys
 
-settings_dict = {"db_reset": True}
+from utilities.settings import program_settings
 
 
-def parse_args() -> dict[str, bool]:
+def parse_args() -> None:
     if not len(sys.argv) > 0:
-        return settings_dict
+        return None
 
     args = sys.argv[1:]
 
     for arg in args:
         if arg in ("--keep", "-K"):
-            settings_dict["db_reset"] = False
+            program_settings.db_reset = False
 
-    return settings_dict
+    for arg in args:
+        if arg in ("--notif", "--notifications", "-N"):
+            program_settings.notifications = True
 
 
 if __name__ == "__main__":
