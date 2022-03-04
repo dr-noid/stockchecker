@@ -1,27 +1,9 @@
-import asyncio
-
 import stockchecker
-from models.scrapedproduct import ScrapedProduct
-from utilities import json_parser, launch_args
+from utilities.settings import program_settings
 
 
 def main():
-    settings = launch_args.parse_args()
-
-    if settings["db_reset"]:
-        print("DB flushed")
-        stockchecker.db_init()
-
-    prices = json_parser.get_prices("prices.json")
-    products = json_parser.get_products()
-
-    stockchecker.add_prices_to_products(products, prices)
-
-    website_list = stockchecker.create_website_list()
-
-    stockchecker.distribute_products(website_list, products)
-
-    asyncio.run(stockchecker.run(website_list))
+    stockchecker.main()
 
 
 if __name__ == "__main__":

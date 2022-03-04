@@ -154,6 +154,8 @@ cython_debug/
 # Personal
 .vscode/
 todo.txt
+env.json
 
 # database files
 *.db
+PyWhatKit_DB.txt
