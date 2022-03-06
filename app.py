@@ -1,5 +1,4 @@
 import stockchecker
-from utilities.settings import program_settings
 
 
 def main():
