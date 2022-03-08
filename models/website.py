@@ -4,6 +4,7 @@ import pyppeteer
 import stockchecker
 from bs4 import BeautifulSoup
 from bs4.element import Tag
+from fake_useragent import FakeUserAgent
 
 from models.product import Product
 from models.scrapedproduct import ScrapedProduct
@@ -17,6 +18,7 @@ class Website(ABC):
         self.scraped_products: list[ScrapedProduct] = []
         self.price_filter = price_filter
         self.availability_filter = availability_filter
+        self.ua = FakeUserAgent()
 
     async def run(self) -> None:
         """
@@ -27,7 +29,7 @@ class Website(ABC):
         `Note:` Only one request has to fail for this method to return `False`,
         some data may still have been scraped.
         """
-        self.driver = await pyppeteer.launch()
+        self.driver = await pyppeteer.launch(defaultViewport={"width": 1920, "height": 1080})
 
         self.log("Running")
 
@@ -42,6 +44,8 @@ class Website(ABC):
 
     async def request(self, url: str) -> str:
         page = await self.driver.newPage()
+
+        await page.setUserAgent(self.ua.random)
 
         await page.goto(url, waitUntil='networkidle2')
 

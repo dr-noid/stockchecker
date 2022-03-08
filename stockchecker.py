@@ -12,6 +12,7 @@ from models.website import Website
 from persistence import database
 from sites.alternate import Alternate
 from sites.azerty import Azerty
+from sites.coolblue import Coolblue
 from sites.megekko import Megekko
 from utilities import json_parser, launch_args, notifications
 from utilities.settings import program_settings
@@ -55,7 +56,8 @@ def create_website_list(price_filter: bool = True, availability_filter: bool = T
     website_list: list[Website] = [
         Alternate(),
         Azerty(),
-        Megekko()
+        Megekko(),
+        Coolblue()
     ]
     # If any of the arguments are provided as False we change the all the websites accordingly
     if not price_filter or not availability_filter:

@@ -26,4 +26,7 @@ class ScrapedProduct(Base):
         self.availability = availability
 
     def __repr__(self):
-        return f"<ScrapedProduct id={self.product_id} url={self.url} price={self.item_price}"
+        return str(self.__dict__)
+
+    # def __repr__(self):
+    #     return f"<ScrapedProduct id={self.product_id} url={self.url} price={self.item_price}"
