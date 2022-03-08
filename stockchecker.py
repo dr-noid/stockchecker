@@ -13,11 +13,13 @@ from persistence import database
 from sites.alternate import Alternate
 from sites.azerty import Azerty
 from sites.megekko import Megekko
-from utilities import json_parser
+from utilities import json_parser, launch_args, notifications
 from utilities.settings import program_settings
 
 
 def main() -> None:
+    launch_args.parse_args()
+
     if program_settings.db_reset:
         print("DB flushed")
         database.init()
@@ -31,6 +33,8 @@ def main() -> None:
     distribute_products(website_list, products)
 
     asyncio.run(run(website_list))
+
+    notifications.run()
 
 
 async def run(websites: list[Website]):

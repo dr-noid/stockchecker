@@ -1,3 +1,5 @@
 beautifulsoup4==4.10.0
+pyperclip==1.8.2
 pyppeteer==1.0.2
+pywhatkit==5.3
 SQLAlchemy==1.4.31
