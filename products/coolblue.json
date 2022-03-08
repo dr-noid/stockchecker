@@ -1,0 +1,33 @@
+{
+    "coolblue":
+    [
+        {
+            "url": "https://www.coolblue.nl/videokaarten/nvidia-chipset/nvidia-geforce-rtx-3000-serie/videokaart-chipset:nvidia-geforce-rtx-3060/werkgeheugen-van-videokaart:12000000000",
+            "id": 0
+        },
+        {
+            "url": "https://www.coolblue.nl/videokaarten/nvidia-chipset/nvidia-geforce-rtx-3000-serie/videokaart-chipset:nvidia-geforce-rtx-3060-ti/werkgeheugen-van-videokaart:8000000000",
+            "id": 1
+        },
+        {
+            "url": "https://www.coolblue.nl/videokaarten/nvidia-chipset/nvidia-geforce-rtx-3000-serie/videokaart-chipset:nvidia-geforce-rtx-3070/werkgeheugen-van-videokaart:8000000000",
+            "id": 2
+        },
+        {
+            "url": "https://www.coolblue.nl/videokaarten/nvidia-chipset/nvidia-geforce-rtx-3000-serie/videokaart-chipset:nvidia-geforce-rtx-3070-ti/werkgeheugen-van-videokaart:8000000000",
+            "id": 3
+        },
+        {
+            "url": "https://www.coolblue.nl/videokaarten/nvidia-chipset/nvidia-geforce-rtx-3000-serie/videokaart-chipset:nvidia-geforce-rtx-3080/werkgeheugen-van-videokaart:10000000000",
+            "id": 4
+        },
+        {
+            "url": "https://www.coolblue.nl/videokaarten/nvidia-chipset/nvidia-geforce-rtx-3000-serie/videokaart-chipset:nvidia-geforce-rtx-3080-ti",
+            "id": 5
+        },
+        {
+            "url": "https://www.coolblue.nl/videokaarten/nvidia-chipset/nvidia-geforce-rtx-3000-serie/videokaart-chipset:nvidia-geforce-rtx-3090/werkgeheugen-van-videokaart:24000000000",
+            "id": 6
+        }
+    ]
+}

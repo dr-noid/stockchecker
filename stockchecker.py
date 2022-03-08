@@ -79,7 +79,7 @@ def distribute_products(websites: list[Website], products: list[Product]) -> Non
 
 def add_prices_to_products(products: list[Product], prices: dict) -> None:
     for product in products:
-        product.price_threshold = prices[product.product_id]
+        product.price_threshold = prices[product.product_enum.value]
 
 
 saved_products = 0

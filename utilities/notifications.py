@@ -1,12 +1,14 @@
 import pyperclip
 from models.scrapedproduct import ScrapedProduct
 from persistence import database
-from pywhatkit import mail, whats
+from pywhatkit import whats
 
 from utilities.settings import program_settings
 
 
 def run() -> None:
+    if not program_settings.notifications:
+        return
     products = database.session.query(ScrapedProduct).all()
     for product in products:
         notify(product)

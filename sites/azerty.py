@@ -44,7 +44,7 @@ class Azerty(Website):
         price = self.strip_price(price_element.text)
         availability = self.check_availability(stock_element.text)
 
-        return ScrapedProduct(product.product_id, url, price, availability)
+        return ScrapedProduct(product.product_enum, url, price, availability)
 
     def strip_price(self, price: str) -> float:
         sanitized_price: str = price.replace(",", ".")

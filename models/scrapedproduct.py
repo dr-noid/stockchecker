@@ -4,6 +4,8 @@ from persistence.database import Base
 from sqlalchemy import Boolean, Column, DateTime, Float, Integer, String
 from sqlalchemy.sql import func
 
+from models.gpu import GPU
+
 
 @dataclass
 class ScrapedProduct(Base):
@@ -17,8 +19,8 @@ class ScrapedProduct(Base):
     time_created = Column(DateTime(timezone=True), nullable=False,
                           server_default=func.now())
 
-    def __init__(self, product_id: int, url: str, item_price: float, availability: bool):
-        self.product_id = product_id
+    def __init__(self, product_enum: GPU, url: str, item_price: float, availability: bool):
+        self.product_id = product_enum.value
         self.url = url
         self.item_price = item_price
         self.availability = availability
