@@ -34,7 +34,7 @@ def main() -> None:
 
     asyncio.run(run(website_list))
 
-    # notifications.run()
+    notifications.run()
 
 
 async def run(websites: list[Website]):

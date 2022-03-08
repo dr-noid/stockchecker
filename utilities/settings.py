@@ -6,7 +6,7 @@ class _Settings:
     notifications: bool
     whatsapp_group_id: str
 
-    def __init__(self, db_reset=True, notifications=True):
+    def __init__(self, db_reset=True, notifications=False):
         self.db_reset = db_reset
         self.notifications = notifications
         self.whatsapp_group_id = str(parse_json("config/env.json"))
