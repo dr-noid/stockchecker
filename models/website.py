@@ -36,7 +36,6 @@ class Website(ABC):
 
         for product in self.products:
             scraped = await self.scrape_product(product)
-
             self.scraped_products.extend(scraped)
 
         await self.driver.close()
@@ -75,17 +74,17 @@ class Website(ABC):
             return scraped_product.availability
         return True
 
-    def name(self, lower: bool = True) -> str:
-        if lower:
-            return self.__class__.__name__.lower()
-        return self.__class__.__name__
-
     def validate_scraped(self, scraped_product: ScrapedProduct | None, product: Product) -> bool:
         """Returns `True` if the passed `ScrapedProduct` is valid."""
         if scraped_product is None:
             return False
-        if not self.validate_data(scraped_product, product):
-            return False
+        if self.price_filter:
+            if scraped_product.item_price > product.price_threshold:
+                return False
+        if self.availability_filter:
+            if not scraped_product.availability:
+                return False
+        print(f"{scraped_product.item_price}   {product.price_threshold}")
         return True
 
     def check_availability(self, stock_desc: str) -> bool:
@@ -93,6 +92,11 @@ class Website(ABC):
             if stock_desc.find(x) != -1:
                 return True
         return False
+
+    def name(self, lower: bool = True) -> str:
+        if lower:
+            return self.__class__.__name__.lower()
+        return self.__class__.__name__
 
     def log(self, message):
         print(f"{self.name().upper()} LOG: {message}")
@@ -113,6 +117,10 @@ class Website(ABC):
 
     @abstractmethod
     def strip_price(self, price: str) -> float:
+        """
+        Parses a `float` price from a string,
+        every `Website` subclass has it's own implementation for this method.
+        """
         pass
 
     def __repr__(self) -> str:

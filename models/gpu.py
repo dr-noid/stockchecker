@@ -1,7 +1,5 @@
 from enum import Enum
 
-from persistence.database import Base
-
 
 class GPU(Enum):
     RTX3060 = 0
