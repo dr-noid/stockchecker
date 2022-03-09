@@ -8,6 +8,7 @@ from models.website import Website
 
 class Coolblue(Website):
     """Coolblue implementation"""
+    compatible_stocks = ["Morgen bezorgd"]
 
     async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
         soup = await self.get_soup(product.url)
@@ -51,4 +52,7 @@ class Coolblue(Website):
         return float(price.strip(",-"))
 
     def check_availability(self, stock: str) -> bool:
-        return stock.__contains__("Morgen bezorgd")
+        for x in self.compatible_stocks:
+            if stock.find(x) != -1:
+                return True
+        return False

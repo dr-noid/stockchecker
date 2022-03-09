@@ -8,6 +8,7 @@ from models.website import Website
 
 class Alternate(Website):
     """Alternate implementation"""
+    compatible_stocks = ["Op voorraad", "Binnenkort op voorraad"]
 
     async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
         soup = await self.get_soup(product.url)
@@ -55,4 +56,7 @@ class Alternate(Website):
         return float(sanitized_price)
 
     def check_availability(self, stock: str) -> bool:
-        return stock in ["Op voorraad", "Binnenkort op voorraad"]
+        for x in self.compatible_stocks:
+            if stock.find(x) != -1:
+                return True
+        return False

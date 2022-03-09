@@ -8,6 +8,8 @@ from models.website import Website
 
 class Megekko(Website):
     """Megekko implementation"""
+    compatible_stocks = ["Uit eigen voorraad leverbaar.",
+                         "Uit voorraad leverbaar"]
 
     async def scrape_product(self, product: Product) -> list[ScrapedProduct]:
         soup = await self.get_soup(product.url)
@@ -50,4 +52,7 @@ class Megekko(Website):
         return float(price.strip(",-"))
 
     def check_availability(self, stock: str) -> bool:
-        return stock.__contains__("Uit eigen voorraad leverbaar.")
+        for x in self.compatible_stocks:
+            if stock.find(x) != -1:
+                return True
+        return False
