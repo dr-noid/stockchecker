@@ -12,6 +12,7 @@ from models.scrapedproduct import ScrapedProduct
 
 class Website(ABC):
     """Abstract website class"""
+    compatible_stocks: list[str]
 
     def __init__(self, price_filter: bool = True, availability_filter: bool = True):
         self.products: list[Product] = []
@@ -87,6 +88,12 @@ class Website(ABC):
             return False
         return True
 
+    def check_availability(self, stock_desc: str) -> bool:
+        for x in self.compatible_stocks:
+            if stock_desc.find(x) != -1:
+                return True
+        return False
+
     def log(self, message):
         print(f"{self.name().upper()} LOG: {message}")
 
@@ -106,10 +113,6 @@ class Website(ABC):
 
     @abstractmethod
     def strip_price(self, price: str) -> float:
-        pass
-
-    @abstractmethod
-    def check_availability(self, stock_desc: str) -> bool:
         pass
 
     def __repr__(self) -> str:

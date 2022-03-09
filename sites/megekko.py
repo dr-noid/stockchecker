@@ -50,9 +50,3 @@ class Megekko(Website):
 
     def strip_price(self, price: str) -> float:
         return float(price.strip(",-"))
-
-    def check_availability(self, stock: str) -> bool:
-        for x in self.compatible_stocks:
-            if stock.find(x) != -1:
-                return True
-        return False
