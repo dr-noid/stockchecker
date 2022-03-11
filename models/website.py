@@ -44,11 +44,8 @@ class Website(ABC):
 
     async def request(self, url: str) -> str:
         page = await self.driver.newPage()
-
         await page.setUserAgent(self.ua.random)
-
         await page.goto(url, waitUntil='networkidle2')
-
         return await page.content()
 
     async def get_soup(self, url: str) -> BeautifulSoup:
@@ -58,21 +55,6 @@ class Website(ABC):
         (For SSR webapps)
         """
         return BeautifulSoup(await self.request(url), "html.parser")
-
-    def price_check(self, threshold: int, price: float) -> bool:
-        return int(price) < threshold
-
-    def validate_data(self, scraped_product: ScrapedProduct, product: Product) -> bool:
-        """
-        Returns `True` if the scraped_product passes all the enabled filters.
-        Products are automatically validated when using the `construct_product()` method
-        """
-        if self.price_filter:
-            return self.price_check(product.price_threshold,
-                                    float(scraped_product.item_price))
-        if self.availability_filter:
-            return scraped_product.availability
-        return True
 
     def validate_scraped(self, scraped_product: ScrapedProduct | None, product: Product) -> bool:
         """Returns `True` if the passed `ScrapedProduct` is valid."""
@@ -84,7 +66,6 @@ class Website(ABC):
         if self.availability_filter:
             if not scraped_product.availability:
                 return False
-        print(f"{scraped_product.item_price}   {product.price_threshold}")
         return True
 
     def check_availability(self, stock_desc: str) -> bool:
