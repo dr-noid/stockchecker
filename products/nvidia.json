@@ -1,0 +1,29 @@
+{
+    "nvidia":
+    [
+        {
+            "url": "https://store.nvidia.com/nl-nl/geforce/store/?page=1&limit=9&locale=nl-nl&gpu=RTX%203060%20Ti",
+            "id": 1
+        },
+        {
+            "url": "https://store.nvidia.com/nl-nl/geforce/store/?page=1&limit=9&locale=nl-nl&gpu=RTX%203070",
+            "id": 2
+        },
+        {
+            "url": "https://store.nvidia.com/nl-nl/geforce/store/?page=1&limit=9&locale=nl-nl&gpu=RTX%203070%20Ti",
+            "id": 3
+        },
+        {
+            "url": "https://store.nvidia.com/nl-nl/geforce/store/?page=1&limit=9&locale=nl-nl&gpu=RTX%203080",
+            "id": 4
+        },
+        {
+            "url": "https://store.nvidia.com/nl-nl/geforce/store/?page=1&limit=9&locale=nl-nl&gpu=RTX%203080%20Ti",
+            "id": 5
+        },
+        {
+            "url": "https://store.nvidia.com/nl-nl/geforce/store/?page=1&limit=9&locale=nl-nl&gpu=RTX%203090",
+            "id": 6
+        }
+    ]
+}
