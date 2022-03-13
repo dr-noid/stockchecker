@@ -49,4 +49,4 @@ class Coolblue(Website):
         return None
 
     def strip_price(self, price: str) -> float:
-        return float(price.replace(".", "").strip(",-"))
+        return float(price.replace(".", "").replace(",", "").strip("-"))
