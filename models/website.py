@@ -43,15 +43,15 @@ class Website(ABC):
 
         stockchecker.save_products(self.scraped_products)
 
-    async def request(self, url: str) -> str:
+    async def request(self, url: str) -> str | None:
         page = await self.driver.newPage()
         await page.setUserAgent(self.ua.random)
         try:
-            await page.goto(url, waitUntil='networkidle2', timeout=1000)
+            await page.goto(url, waitUntil='networkidle2', timeout=5000)
         except TimeoutError:
             await self.driver.close()
             self.log("ERROR: TimeoutError thrown")
-            return ""
+            return None
         return await page.content()
 
     async def get_soup(self, url: str) -> BeautifulSoup:
@@ -60,7 +60,10 @@ class Website(ABC):
         The `delay` param is the amount of time to wait for dynamic content to load.
         (For SSR webapps)
         """
-        return BeautifulSoup(await self.request(url), "html.parser")
+        data = await self.request(url)
+        if data is None:
+            raise RuntimeError("no url data")
+        return BeautifulSoup(data, "html.parser")
 
     def validate_scraped(self, scraped_product: ScrapedProduct | None, product: Product) -> bool:
         """Returns `True` if the passed `ScrapedProduct` is valid."""
