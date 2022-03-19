@@ -5,6 +5,7 @@ import stockchecker
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from fake_useragent import FakeUserAgent
+from pyppeteer.errors import TimeoutError
 
 from models.product import Product
 from models.scrapedproduct import ScrapedProduct
@@ -45,7 +46,12 @@ class Website(ABC):
     async def request(self, url: str) -> str:
         page = await self.driver.newPage()
         await page.setUserAgent(self.ua.random)
-        await page.goto(url, waitUntil='networkidle2')
+        try:
+            await page.goto(url, waitUntil='networkidle2', timeout=1000)
+        except TimeoutError:
+            await self.driver.close()
+            self.log("ERROR: TimeoutError thrown")
+            return ""
         return await page.content()
 
     async def get_soup(self, url: str) -> BeautifulSoup:

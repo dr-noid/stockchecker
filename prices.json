@@ -18,7 +18,7 @@
         {
             "name": "RTX 3070 Ti",
             "id": 3,
-            "price": 900
+            "price": 870
         },
         {
             "name": "RTX 3080",
@@ -28,7 +28,7 @@
         {
             "name": "RTX 3080 Ti",
             "id": 5,
-            "price": 1500
+            "price": 1490
         },
         {
             "name": "RTX 3090",
